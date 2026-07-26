@@ -525,14 +525,13 @@ function wrapTextInSpan(htmlContent) {
 
 //main js code
 function cleanEmptyHtmlTags(htmlContent) {
-    console.log(htmlContent);
     htmlContent = htmlContent.replace(/&nbsp;/g, ' ');
     // <brbrbrbr>
     htmlContent = htmlContent.replace(/<b>\s*<\/b>/g, '');
     htmlContent = htmlContent.replace(/<li>\s*<\/li>/g, '');
     htmlContent = htmlContent.replace(/<br>\s*<br>\s*<br>\s*<br>/g, '<br><br>');
     htmlContent = htmlContent.replace(/<br>\s*<br>\s*<br>/g, '<br><br>');
-    htmlContent = htmlContent.replace(/(<div[^>]*>)\s*<br><br>/gi, '$1');
+    htmlContent = htmlContent.replace(/(<span[^>]*>)\s*<br><br>/gi, '$1');
     htmlContent = htmlContent.replace(/<\/a>\s*<a[^>]*>/g, ' ');
     htmlContent = htmlContent.replace(/<pre>/g, '');
     htmlContent = htmlContent.replace(/<a[^>]*>\s*<\/a>/g, ' ');
@@ -540,14 +539,12 @@ function cleanEmptyHtmlTags(htmlContent) {
     htmlContent = htmlContent.replace(/<u>\s*<\/u>/g, ' ');
     htmlContent = htmlContent.replace(/<em[^>]*>\s*<\/em>/g, ' ');
     htmlContent = htmlContent.replace(/<\/em>\s*<em[^>]*>/g, ' ');
-    htmlContent = htmlContent.replace(/<i[^>]*>\s*<\/i>/g, ' ');
-    htmlContent = htmlContent.replace(/<\/i>\s*<i[^>]*>/g, ' ');
     htmlContent = htmlContent.replace(/<a[^>]*>\s*<\/a>/g, ' ');
-    htmlContent = htmlContent.replace(/<br><br>\s*<\/div>/g, '<\/div>');
-    htmlContent = htmlContent.replace(/(<div[^>]*>)\s*<\/a>/gi, '$1');
-    htmlContent = htmlContent.replace(/(<div[^>]*>)\s*<\/b>/gi, '$1');
-    htmlContent = htmlContent.replace(/<a[^>]*>\s*<\/div>/g, '<\/div>');
-    htmlContent = htmlContent.replace(/<b[^>]*>\s*<\/div>/g, '<\/div>');
+    htmlContent = htmlContent.replace(/<br><br>\s*<\/span>/g, '<\/span>');
+    htmlContent = htmlContent.replace(/(<span[^>]*>)\s*<\/a>/gi, '$1');
+    htmlContent = htmlContent.replace(/(<span[^>]*>)\s*<\/b>/gi, '$1');
+    htmlContent = htmlContent.replace(/<a[^>]*>\s*<\/span>/g, '<\/span>');
+    htmlContent = htmlContent.replace(/<b[^>]*>\s*<\/span>/g, '<\/span>');
     htmlContent = htmlContent.replace(/(<div[^>]*>)\s*<\/a>/gi, '$1');
     htmlContent = htmlContent.replace(/(<div[^>]*>)\s*<\/b>/gi, '$1');
     htmlContent = htmlContent.replace(/<a[^>]*>\s*<\/div>/g, '<\/div>');
@@ -562,20 +559,19 @@ function cleanEmptyHtmlTags(htmlContent) {
     htmlContent = htmlContent.replace(/<br><br>\s*<br><br>/g, '<br><br>');
     htmlContent = htmlContent.replace(/<br><br>\s*<\/div>/g, '<\/div>');
     htmlContent = htmlContent.replace(/(<div[^>]*>)\s*<br><br>/gi, '$1');
-    htmlContent = htmlContent.replace(/(<div[^>]*>)\s*<br><br>/gi, '$1');
-    htmlContent = htmlContent.replace(/<br><br>\s*<\/div>/g, '<\/div>');
+    htmlContent = htmlContent.replace(/(<span[^>]*>)\s*<br><br>/gi, '$1');
+    htmlContent = htmlContent.replace(/<br><br>\s*<\/span>/g, '<\/span>');
     htmlContent = htmlContent.replace(/(<div[^>]*>)\s*<br><br>/gi, '$1');
     htmlContent = htmlContent.replace(/<br><br>\s*<\/div>/g, '<\/div>');
     htmlContent = htmlContent.replace(/<br>\s*<\/div>/g, '<\/div>');
-    htmlContent = htmlContent.replace(/<br>\s*<\/div>/g, '<\/div>');
+    htmlContent = htmlContent.replace(/<br>\s*<\/span>/g, '<\/span>');
 
-    htmlContent = htmlContent.replace(/<div[^>]*>\s*<\/div>/g, '');
+    htmlContent = htmlContent.replace(/<span[^>]*>\s*<\/span>/g, '');
     htmlContent = htmlContent.replace(/<div[^>]*>\s*<\/div>/g, '');
     htmlContent = htmlContent.replace(/<td[^>]*>\s*<\/td>/g, '');
     htmlContent = htmlContent.replace(/<tr[^>]*>\s*<\/tr>/g, '');
     return htmlContent;
 }
-
 //end main js code
 
 //html js code
@@ -655,12 +651,12 @@ async function exportHTML() {
     editorContent = wrapSignatureImg(editorContent);
     editorContent = wrapFooterBlock(editorContent);
     editorContent = wrapFooterCenterBlock(editorContent);
-    editorContent = cleanEmptyHtmlTags(editorContent);
+    //editorContent = cleanEmptyHtmlTags(editorContent);
     editorContent = wrapContentInFullTableStructure(editorContent);
 
     editorContent = addOneBr(editorContent);
     editorContent = replaceTripleBrWithSingle(editorContent);
-
+    editorContent = cleanEmptyHtmlTags(editorContent);
     const prettyHtml = await formatWithPrettier(editorContent);
     document.getElementById('output').value = prettyHtml;
     return prettyHtml;
